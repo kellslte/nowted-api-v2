@@ -1,8 +1,10 @@
-import { Router } from 'express'
-import authRouter from './v1/auth.v1.routes.js';
-const router = Router()
+import authRouter from "./v1/auth.v1.routes.js";
+import notesRouter from "./v1/note.v1.routes.js";
+import folderRouter from "./v1/folder.v1.routes.js";
 
-// Version 1 routes
-router.all('/v1/auth').get('/register').post('/sign');
-
-export const appRouter = router;
+// Version One Routes
+export {
+    authRouter,
+    notesRouter,
+    folderRouter,
+}

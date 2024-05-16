@@ -1,13 +1,16 @@
 const inputValidator = (schema, request) => {
-    const { error } = schema.validate(request, { abortEarly: false });
     const errors = {};
+     const {error, value } = schema.validate(request, { abortEarly: false});
 
-    if (error) {
-        error.details.forEach((error) => {
-            errors[error.context['key']] = error.message;
-        })
+    if(error){
+        error.details.forEach(err => {
+            errors[err.context.key] = String(err.message).replaceAll('\"', '');
+        });
 
         return errors;
     }
-    return null;
+
+    return;
 }
+
+export default inputValidator;
