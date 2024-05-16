@@ -4,6 +4,7 @@ import inputValidator from "../../lib/utils/inputValidator.util.js";
 import { LoginRequest } from "../requests/login.request.js";
 import { RegisterRequest } from "../requests/register.request.js";
 import * as authService from "../services/auth.service.js";
+import * as noteService from '../services/note.service.js';
 
 export const login = asyncHandler(async (req, res, next) => {
   // check the request body and make sure the required keys are there
@@ -47,3 +48,26 @@ export const register = asyncHandler(async (req, res, next) => {
     },
   });
 });
+
+export const getUser = asyncHandler(async (req, res, next) => {
+  const user = req.user;
+
+  const notes = await noteService.getNotes(user.sub);
+  const favourites = await noteService.getFavourites(user.sub);
+  const trashed = await noteService.getTrashed(user.sub);
+  const archived = await noteService.getArchived(user.sub);
+  const recentNotes = await noteService.getRecentNotes(user.sub);
+
+  return res.status(200).json({
+    success: true,
+    message: "User retrieved successfully",
+    data: {
+      user,
+      notes,
+      favourites,
+      trashed,
+      archived,
+      recentNotes
+    }
+  })
+})

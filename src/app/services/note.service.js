@@ -30,15 +30,15 @@ export const getNote = async (id) => {
   return await Note.findById(id);
 };
 
-export const getNotes = async (userId, folderId) => {
-  const notes = await Note.find({ author: userId, folder: folderId }).populate("folder").exec();
+export const getNotes = async (userId) => {
+  const notes = await Note.find({ author: userId }).populate("folder").exec();
 
   const sortedNotes = notes.reduce((acc, note) => {
     const folderName = note.folder.name;
     if (!acc[folderName]) {
       acc[folderName] = [];
     }
-    const {folder, ...rest} = note._doc;
+    const { folder, ...rest } = note._doc;
     acc[folderName].push(rest);
     return acc;
   }, {});
@@ -52,10 +52,11 @@ export const getNotes = async (userId, folderId) => {
 };
 
 export const getFavourites = async (userId) => {
-  const notes = await Note.find({ author: userId, favourite: true })
-    .populate("folder");
+  const notes = await Note.find({ author: userId, favourite: true }).populate(
+    "folder"
+  );
 
-    return notes;
+  return notes;
 };
 
 export const getTrashed = async (userId) => {
@@ -63,7 +64,7 @@ export const getTrashed = async (userId) => {
     .populate("folder")
     .exec();
 
-    return notes;
+  return notes;
 };
 
 export const getArchived = async (userId) => {
@@ -71,7 +72,7 @@ export const getArchived = async (userId) => {
     .populate("folder")
     .exec();
 
-    return notes;
+  return notes;
 };
 
 export const getRecentNotes = async (userId) => {

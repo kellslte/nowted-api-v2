@@ -25,9 +25,7 @@ const authenticateUser = async (payload) => {
     return createToken({
         sub: user._id,
         email: user.email,
-        name: user.name,
-        // add the folders the user has and the notes too
-        // add a notes object with archived, favourite and trashed notes keys and fetch the appropriate records
+        name: user.name
     });
 }
 
