@@ -16,15 +16,12 @@ export const login = asyncHandler(async (req, res, next) => {
       errors
     );
 
-  const token = await authService.authenticateUser(req.body);
+  const response = await authService.authenticateUser(req.body);
 
   return res.status(200).json({
     success: true,
     message: "User logged in successfully",
-    authorization: {
-      type: "bearer",
-      token,
-    },
+    data: response,
   });
 });
 
@@ -48,26 +45,3 @@ export const register = asyncHandler(async (req, res, next) => {
     },
   });
 });
-
-export const getUser = asyncHandler(async (req, res, next) => {
-  const user = req.user;
-
-  const notes = await noteService.getNotes(user.sub);
-  const favourites = await noteService.getFavourites(user.sub);
-  const trashed = await noteService.getTrashed(user.sub);
-  const archived = await noteService.getArchived(user.sub);
-  const recentNotes = await noteService.getRecentNotes(user.sub);
-
-  return res.status(200).json({
-    success: true,
-    message: "User retrieved successfully",
-    data: {
-      user,
-      notes,
-      favourites,
-      trashed,
-      archived,
-      recentNotes
-    }
-  })
-})
