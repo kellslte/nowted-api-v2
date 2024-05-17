@@ -1,6 +1,5 @@
 import { Router } from "express";
 import {
-  getUser,
   login,
   register,
 } from "../../app/controllers/auth.controller.js";
