@@ -7,6 +7,7 @@ import {
 import { verifyPassword } from "../providers/auth/password.auth-provider.js";
 import { createToken } from "../providers/auth/jwt.auth-provider.js";
 import * as noteService from "./note.service.js";
+import { getUserFolders } from "./folder.service.js";
 
 const createUser = async (payload) => {
   const existingRecord = await userService.findUserByEmail(payload.email);
@@ -44,12 +45,7 @@ const authenticateUser = async (payload) => {
     user: {
       id: _id,
       name,
-      email,
-      notes: await noteService.getNotes(user._id),
-      favourites: await noteService.getFavourites(user._id),
-      trashed: await noteService.getTrashed(user._id),
-      archived: await noteService.getArchived(user._id),
-      recentNotes: await noteService.getRecentNotes(user._id),
+      email
     },
     authorization: {
       type: "bearer",
@@ -60,4 +56,15 @@ const authenticateUser = async (payload) => {
   return response;
 };
 
-export { createUser, authenticateUser };
+const authenticatedUserData = async (user) => {
+ return {
+   notes: await noteService.getNotes(user),
+   favourites: await noteService.getFavourites(user),
+   trashed: await noteService.getTrashed(user),
+   archived: await noteService.getArchived(user),
+   recentNotes: await noteService.getRecentNotes(user),
+   folders: await getUserFolders(user),
+ };
+}
+
+export { createUser, authenticateUser, authenticatedUserData };

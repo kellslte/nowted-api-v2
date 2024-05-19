@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  getAuthenticatedUserData,
   login,
   register,
 } from "../../app/controllers/auth.controller.js";
@@ -8,5 +9,6 @@ const authRouter = Router();
 
 authRouter.post("/sign-up", register);
 authRouter.post("/sign-in", login);
+authRouter.get("/user-data", authMiddleware, getAuthenticatedUserData);
 
 export default authRouter;

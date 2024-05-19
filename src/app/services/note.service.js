@@ -33,22 +33,22 @@ export const getNote = async (id) => {
 export const getNotes = async (userId) => {
   const notes = await Note.find({ author: userId }).populate("folder").exec();
 
-  const sortedNotes = notes.reduce((acc, note) => {
-    const folderName = note.folder.name;
-    if (!acc[folderName]) {
-      acc[folderName] = [];
-    }
-    const { folder, ...rest } = note._doc;
-    acc[folderName].push(rest);
-    return acc;
-  }, {});
+  // const sortedNotes = notes.reduce((acc, note) => {
+  //   const folderName = note.folder.name;
+  //   if (!acc[folderName]) {
+  //     acc[folderName] = [];
+  //   }
+  //   const { folder, ...rest } = note._doc;
+  //   acc[folderName].push(rest);
+  //   return acc;
+  // }, {});
 
-  const response = Object.keys(sortedNotes).map((folderName) => ({
-    folder: folderName,
-    notes: sortedNotes[folderName],
-  }));
+  // const response = Object.keys(sortedNotes).map((folderName) => ({
+  //   folder: folderName,
+  //   notes: sortedNotes[folderName],
+  // }));
 
-  return response;
+  return notes;
 };
 
 export const getFavourites = async (userId) => {

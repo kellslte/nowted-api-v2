@@ -45,3 +45,16 @@ export const register = asyncHandler(async (req, res, next) => {
     },
   });
 });
+
+export const getAuthenticatedUserData = asyncHandler(async (req, res, next) => {
+  // get all the data partaining to the currently logged in user
+ const data = await authService.authenticatedUserData(req.user.sub);
+
+ return res.status(200).json({
+  success: true,
+  message: "User data retrieved successfully",
+  data: {
+    ...data,
+  },
+ })
+});

@@ -30,7 +30,10 @@ const deleteFolder = async (id) => {
 
 const getUserFolders = async (id) => {
   const folders = await Folder.find({ user: id });
-  return folders;
+  return folders.map(folder => ({
+    id: folder._id,
+    name: folder.name
+  }));
 };
 
 export {
